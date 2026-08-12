@@ -1,15 +1,15 @@
-# openhost-tasks-md
+# bottled-tasks-md
 
 [Tasks.md](https://github.com/BaldissaraMatheus/Tasks.md) — a
-markdown-file-based Kanban board — packaged as an OpenHost app
-with seamless OpenHost SSO. The zone owner is auto-authenticated
+markdown-file-based Kanban board — packaged as a Cloud in a Bottle app
+with seamless Cloud in a Bottle SSO. The zone owner is auto-authenticated
 by the auth-proxy; Tasks.md itself has no per-user auth, just a
 filesystem of markdown files behind the SPA.
 
 ## What you get
 
 - Tasks.md running on `https://tasks-md.<zone>/` with TLS
-  terminated by the OpenHost outer Caddy.
+  terminated by the Cloud in a Bottle outer Caddy.
 - The zone owner is auto-authenticated; no login form ever
   appears.
 - Persistent state under `/data/app_data/tasks-md/`:
@@ -25,7 +25,7 @@ filesystem of markdown files behind the SPA.
 For an "agent posts task progress that the human user can see
 and edit" workflow, Tasks.md is the simplest possible primitive:
 **tasks are markdown files in a directory tree**. An LLM agent
-running on the same host (e.g. as another OpenHost app) can:
+running on the same host (e.g. as another Cloud in a Bottle app) can:
 
 ```bash
 mkdir -p $OPENHOST_APP_DATA_DIR/../tasks-md/tasks/in-progress
@@ -82,7 +82,7 @@ container :8090  ── auth_proxy.py ──────────────
 
 Tasks.md has no application-level authentication. The auth-
 proxy is the only auth gate, and it does the simplest possible
-thing: 403 unless the OpenHost router stamped
+thing: 403 unless the Cloud in a Bottle router stamped
 `X-OpenHost-Is-Owner: true` on the request.
 
 Why this is safe even though the router's stamp is a single
@@ -132,14 +132,14 @@ changes to the upstream API.
 For agents NOT on the same host (or that prefer not to touch
 the filesystem), the API is reachable through the auth-proxy
 just like the SPA — the `Authorization: Bearer <openhost-
-token>` header authenticates the request to the OpenHost
+token>` header authenticates the request to the Cloud in a Bottle
 router, which stamps the owner header, which lets the auth-
 proxy through.
 
 ## Limitations
 
 - **No per-user auth = single-user.** Every visitor who passes
-  the OpenHost zone JWT check has full read+write access.
+  the Cloud in a Bottle zone JWT check has full read+write access.
   Fine for a personal zone; not a multi-tenant model. If
   multiple humans need separate boards, run multiple
   instances (one per user) or pivot to one of the heavier
