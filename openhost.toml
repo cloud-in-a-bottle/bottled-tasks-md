@@ -1,7 +1,7 @@
 [app]
 name = "tasks-md"
 version = "0.1.0"
-description = "Tasks.md — markdown-file-based task management board (Kanban). The zone owner is auto-authenticated via the OpenHost router; the app itself has no per-user authentication. Tasks are plain Markdown files on disk that LLM agents can read and write directly."
+description = "Tasks.md — markdown-file-based task management board (Kanban). The zone owner is auto-authenticated via the Cloud in a Bottle router; the app itself has no per-user authentication. Tasks are plain Markdown files on disk that LLM agents can read and write directly."
 
 [runtime.container]
 # Container port 8090 is the auth-proxy sidecar.  It listens
